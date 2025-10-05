@@ -1,0 +1,7 @@
+Flask
+vaderSentiment
+transformers
+scipy
+torch
+numpy
+pandas
