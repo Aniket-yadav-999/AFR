@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>🧠 Multi-Model Sentiment Analysis Platform</h1>
+    <p>Analyze sentiment of a review using two different models and compare their results.</p>
+
+    <form method="POST">
+        <textarea name="review" rows="6" placeholder="✍️ Enter your review here">{{ review }}</textarea>
+        <button type="submit">🔍 Analyze Sentiment</button>
+    </form>
+
+    {% if vader_zipped and roberta_zipped %}
+        <div class="results">
+            <div class="column">
+                <h3>🧪 VADER Sentiment Scores</h3>
+                <table>
+                    <tr><th>Sentiment</th><th>Score</th></tr>
+                    {% for sentiment, score in vader_zipped %}
+                        <tr>
+                            <td>{{ sentiment }}</td>
+                            <td>{{ "%.2f"|format(score * 100) }}%</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="column">
+                <h3>🤗 RoBERTa Sentiment Scores</h3>
+                <table>
+                    <tr><th>Sentiment</th><th>Score</th></tr>
+                    {% for sentiment, score in roberta_zipped %}
+                        <tr>
+                            <td>{{ sentiment }}</td>
+                            <td>{{ "%.2f"|format(score * 100) }}%</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="interpretation">
+            <h3>🤖 Interpretation</h3>
+            <p>{{ interpretation | safe }}</p>
+        </div>
+
+        <hr>
+        <div class="footer">
+            🔍 This application uses VADER (rule-based) and RoBERTa (transformer-based) models to analyze text sentiment.
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
